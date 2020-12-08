@@ -18,11 +18,11 @@ CREATE TABLE users (
 ```
 
 ## Create sample data
-`INSERT INTO users (name, profile) VALUES ("Subaru", "エミリアたんマジ天使！");`  
-`INSERT INTO users (name, profile) VALUES ("Emilia", "もう、スバルのオタンコナス！");`  
-`INSERT INTO users (name, profile) VALUES ("Ram", "いいえお客様、きっと生まれて来たのが間違いだわ");`  
-`INSERT INTO users (name, profile) VALUES ("Rem", "はい、スバルくんのレムです。");`  
-`INSERT INTO users (name, profile) VALUES ("Roswaal", "君は私になーぁにを望むのかな？");`  
+`INSERT INTO users (name, profile) VALUES ("B.B.King", "Thrill is gone");`  
+`INSERT INTO users (name, profile) VALUES ("Freddie King", "Hideaway");`  
+`INSERT INTO users (name, profile) VALUES ("Muddy Waters", "Hoochie Coochie Man");`  
+`INSERT INTO users (name, profile) VALUES ("John Lee Hooker", "BOOM BOOM");`  
+`INSERT INTO users (name, profile) VALUES ("Clarence Gatemouth Brown", "Okie Dokie Stomp");`  
 
 ## Fetch all data from users table
 `SELECT * FROM users;`
