@@ -1,6 +1,6 @@
 Simple JSON API with Node.js, Express and sqlite3.
 
-##Global Installs
+## Global Installs
 ```
 npm install -g node-dev
 ```
