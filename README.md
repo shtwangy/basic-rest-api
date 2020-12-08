@@ -1,5 +1,10 @@
 Simple JSON API with Node.js, Express and sqlite3.
 
+##Global Installs
+```
+npm install -g node-dev
+```
+
 ## Create users table
 ```
 CREATE TABLE users (  
