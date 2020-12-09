@@ -4,6 +4,10 @@ Simple JSON API with Node.js, Express and sqlite3.
 ```
 npm install -g node-dev
 ```
+## Connect Database
+```
+npm run connect
+```
 
 ## Create users table
 ```
