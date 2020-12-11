@@ -7,14 +7,14 @@ const usersModule = (() => {
             const users = await res.json()
 
             users.map(user => {
-                const body = `<th>
+                const body = `<tr>
                                     <td>${user.id}</td>
                                     <td>${user.name}</td>
                                     <td>${user.profile}</td>
                                     <td>${user.date_of_birth}</td>
                                     <td>${user.created_at}</td>
                                     <td>${user.updated_at}</td>
-                              </th>`
+                              </tr>`
                 document.getElementById('users-list').insertAdjacentHTML('beforeend', body)
             })
         }
