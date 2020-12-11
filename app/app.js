@@ -15,6 +15,18 @@ app.get('/api/v1/users', (req, res) => {
     db.close()
 })
 
+// Get a user
+app.get('/api/v1/users/:id', (req, res) => {
+    const db = new sqlite3.Database(dbPath)
+    const id = req.params.id
+
+    db.get(`SELECT * FROM users WHERE id = ${id}`, (err, row) => {
+        res.json(row)
+    })
+
+    db.close()
+})
+
 const port = process.env.PORT || 3000
 app.listen(port)
 console.log("Listen on port: " + port)
