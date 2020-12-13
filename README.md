@@ -8,6 +8,7 @@ npm install -g node-dev
 ```
 npm run connect
 ```
+Don't forget to create the `app/db` directory the first time.
 
 ## Create users table
 ```
