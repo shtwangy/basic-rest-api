@@ -75,7 +75,7 @@ app.post('/api/v1/users', async (req, res) => {
     db.close()
 })
 
-// Update a new user
+// Update user data
 app.put('/api/v1/users/:id', async (req, res) => {
     const db = new sqlite3.Database(dbPath)
     const id = req.params.id
@@ -92,6 +92,16 @@ app.put('/api/v1/users/:id', async (req, res) => {
             'ユーザー情報の更新に成功しました'
         )
     })
+
+    db.close()
+})
+
+// Delete user
+app.delete('/api/v1/users/:id', async (req, res) => {
+    const db = new sqlite3.Database(dbPath)
+    const id = req.params.id
+
+    await run(`DELETE FROM users WHERE id=${id}`, db, res, 'ユーザーを削除しました')
 
     db.close()
 })
