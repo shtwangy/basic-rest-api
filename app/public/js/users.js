@@ -16,6 +16,7 @@ const usersModule = (() => {
                                     <td>${user.date_of_birth}</td>
                                     <td>${user.created_at}</td>
                                     <td>${user.updated_at}</td>
+                                    <td><a href="edit.html?uid=${user.id}">編集</a></td>
                               </tr>`
                 document.getElementById('users-list').insertAdjacentHTML('beforeend', body)
             })
