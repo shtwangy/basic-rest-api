@@ -37,6 +37,24 @@ const usersModule = (() => {
             const resJson = await res.json()
             alert(resJson.message)
             window.location.href = '/'
+        },
+        updateUser: async (uid) => {
+            const name = document.getElementById('name').value
+            const profile = document.getElementById('profile').value
+            const dateOfBirth = document.getElementById('date-of-birth').value
+            const body = {
+                name: name,
+                profile: profile,
+                date_of_birth: dateOfBirth
+            }
+            const res = await fetch(BASE_URL + '/' + uid, {
+                method: 'PUT',
+                headers: headers,
+                body: JSON.stringify(body)
+            })
+            const resJson = await res.json()
+            alert(resJson.message)
+            window.location.href = '/'
         }
     }
 })()
