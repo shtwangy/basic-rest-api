@@ -66,6 +66,13 @@ const usersModule = (() => {
             const resJson = await res.json()
             alert(resJson.message)
             window.location.href = '/'
+        },
+        setExistingValue: async(uid) => {
+            const res = await fetch(BASE_URL + '/' + uid)
+            const resJson = await res.json()
+            document.getElementById('name').value = resJson.name
+            document.getElementById('profile').value = resJson.profile
+            document.getElementById('date-of-birth').value = resJson.date_of_birth
         }
     }
 })()
