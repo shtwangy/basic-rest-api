@@ -55,6 +55,17 @@ const usersModule = (() => {
             const resJson = await res.json()
             alert(resJson.message)
             window.location.href = '/'
+        },
+        deleteUser: async (uid) => {
+            const ret = window.confirm('このユーザーを削除しますか？')
+            if (!ret) return false
+            const res = await fetch(BASE_URL + '/' + uid, {
+                method: 'DELETE',
+                headers: headers
+            })
+            const resJson = await res.json()
+            alert(resJson.message)
+            window.location.href = '/'
         }
     }
 })()
