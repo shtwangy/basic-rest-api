@@ -78,7 +78,7 @@ app.post('/api/v1/users', async (req, res) => {
 
         try {
             await run(`INSERT INTO users (name, profile, date_of_birth) VALUES ("${name}", "${profile}", "${dateOfBirth}")`, db)
-            res.status(201).send('新規ユーザーを作成しました')
+            res.status(201).send({message: '新規ユーザーを作成しました'})
         } catch (e) {
             res.status(500).send({error: e})
         }
@@ -124,7 +124,19 @@ app.delete('/api/v1/users/:id', async (req, res) => {
     const db = new sqlite3.Database(dbPath)
     const id = req.params.id
 
-    await run(`DELETE FROM users WHERE id=${id}`, db, res, 'ユーザーを削除しました')
+    // 現在のユーザー情報を取得する
+    db.get(`SELECT * FROM users WHERE id = ${id}`, async (err, row) => {
+        if (!row) {
+            res.status(404).send({error: '指定されたユーザーが見つかりません'})
+        } else {
+            try {
+                await run(`DELETE FROM users WHERE id=${id}`, db)
+                res.status(200).send({message: 'ユーザーを削除しました'})
+            } catch (e) {
+                res.status(500).send({error: e})
+            }
+        }
+    })
 
     db.close()
 })
