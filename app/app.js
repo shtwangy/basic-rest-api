@@ -32,7 +32,11 @@ app.get('/api/v1/users/:id', (req, res) => {
     const id = req.params.id
 
     db.get(`SELECT * FROM users WHERE id = ${id}`, (err, row) => {
-        res.json(row)
+        if (!row) {
+            res.status(404).send({error: 'Not found.'})
+        } else {
+            res.status(200).json(row)
+        }
     })
 
     db.close()
