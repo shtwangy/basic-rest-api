@@ -88,21 +88,33 @@ app.post('/api/v1/users', async (req, res) => {
 
 // Update user data
 app.put('/api/v1/users/:id', async (req, res) => {
-    const db = new sqlite3.Database(dbPath)
-    const id = req.params.id
+    if (!req.body.name || req.body.name === '') {
+        res.status(400).send({error: 'ユーザー名が指定されていません'})
+    } else {
+        const db = new sqlite3.Database(dbPath)
+        const id = req.params.id
 
-    // 現在のユーザー情報を取得する
-    db.get(`SELECT * FROM users WHERE id = ${id}`, async (err, row) => {
-        const name = req.body.name ? req.body.name : row.name
-        const profile = req.body.profile ? req.body.profile : row.profile
-        const dateOfBirth = req.body.date_of_birth ? req.body.date_of_birth : row.date_of_birth
-        await run(
-            `UPDATE users SET name="${name}", profile="${profile}", date_of_birth="${dateOfBirth}" WHERE id=${id}`,
-            db,
-            res,
-            'ユーザー情報の更新に成功しました'
-        )
-    })
+        // 現在のユーザー情報を取得する
+        db.get(`SELECT * FROM users WHERE id = ${id}`, async (err, row) => {
+            if (!row) {
+                res.status(404).send({error: '指定されたユーザーが見つかりません'})
+            } else {
+                const name = req.body.name ? req.body.name : row.name
+                const profile = req.body.profile ? req.body.profile : row.profile
+                const dateOfBirth = req.body.date_of_birth ? req.body.date_of_birth : row.date_of_birth
+
+                try {
+                    await run(
+                        `UPDATE users SET name="${name}", profile="${profile}", date_of_birth="${dateOfBirth}" WHERE id=${id}`,
+                        db
+                    )
+                    res.status(200).send({message: 'ユーザー情報を更新しました'})
+                } catch (e) {
+                    res.status(500).send({error: e})
+                }
+            }
+        })
+    }
 
     db.close()
 })
