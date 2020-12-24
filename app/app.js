@@ -221,6 +221,28 @@ app.delete('/api/v1/users/:id', async (req, res) => {
     db.close()
 })
 
+// Delete following
+app.delete('/api/v1/users/:following_id/following/:followed_id', async (req, res) => {
+    const db = new sqlite3.Database(dbPath)
+    const following_id = req.params.following_id
+    const followed_id = req.params.followed_id
+
+    db.get(`SELECT * FROM following WHERE following_id = ${following_id} AND followed_id = ${followed_id}`, async (err, row) => {
+        if (!row) {
+            res.status(404).send({error: 'Not found following.'})
+        } else {
+            try {
+                await run(`DELETE FROM following WHERE following_id = ${following_id} AND followed_id = ${followed_id}`, db)
+                res.status(200).send({message: 'delete following.'})
+            } catch (e) {
+                res.status(500).send({error: e})
+            }
+        }
+    })
+
+    db.close()
+})
+
 const port = process.env.PORT || 3000
 app.listen(port)
 console.log("Listen on port: " + port)
