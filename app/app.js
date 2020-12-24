@@ -60,6 +60,24 @@ app.get('/api/v1/users/:id/following', (req, res) => {
     db.close()
 })
 
+// Get followed users
+app.get('/api/v1/users/:id/followed', (req, res) => {
+    const db = new sqlite3.Database(dbPath)
+    const id = req.params.id
+
+    db.all(
+        `SELECT * FROM following LEFT JOIN users ON following.following_id = users.id WHERE followed_id = ${id}`,
+        (err, rows) => {
+            if (!rows) {
+                res.status(404).send({error: 'Not found.'})
+            } else {
+                res.status(200).json(rows)
+            }
+        })
+
+    db.close()
+})
+
 // Search users matching keyword
 app.get('/api/v1/search', (req, res) => {
     const db = new sqlite3.Database(dbPath)
