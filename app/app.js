@@ -145,6 +145,27 @@ app.post('/api/v1/users', async (req, res) => {
     }
 })
 
+// Create a new follow relationship
+app.post('/api/v1/users/:following_id/following/:followed_id', async (req, res) => {
+    const db = new sqlite3.Database(dbPath)
+    const following_id = req.params.following_id
+    const followed_id = req.params.followed_id
+
+    await db.get(`SELECT * FROM following WHERE following_id = ${following_id} AND followed_id = ${followed_id}`, async (err, row) => {
+        if (row) {
+            res.status(409).send({error: 'relationship already exists.'})
+        } else {
+            try {
+                await run(`INSERT INTO following (following_id, followed_id) VALUES ("${following_id}", "${followed_id}")`, db)
+                res.status(201).send({message: '新規フォローを作成しました'})
+            } catch (e) {
+                res.status(500).send({error: e})
+            }
+        }
+    })
+    db.close()
+})
+
 // Update user data
 app.put('/api/v1/users/:id', async (req, res) => {
     if (!req.body.name || req.body.name === '') {
