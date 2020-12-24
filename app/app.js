@@ -61,7 +61,7 @@ app.get('/api/v1/users/:id/following', (req, res) => {
 })
 
 // Get followed users
-app.get('/api/v1/users/:id/followed', (req, res) => {
+app.get('/api/v1/users/:id/followers', (req, res) => {
     const db = new sqlite3.Database(dbPath)
     const id = req.params.id
 
