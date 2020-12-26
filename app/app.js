@@ -101,6 +101,29 @@ app.get('/api/v1/users/:following_id/following/:followed_id', (req, res) => {
     db.close()
 })
 
+// Get follower info
+app.get('/api/v1/users/:followed_id/followed/:following_id', (req, res) => {
+    const db = new sqlite3.Database(dbPath)
+    const following_id = req.params.following_id
+    const followed_id = req.params.followed_id
+
+    db.get(`SELECT * FROM following WHERE following_id = ${following_id} AND followed_id = ${followed_id}`, (err, row) => {
+        if (!row) {
+            res.status(404).send({error: 'No follow relationship.'})
+        } else {
+            db.get(`SELECT * FROM users WHERE id = ${following_id}`, (err, row) => {
+                if (!row) {
+                    res.status(404).send({error: 'Not found follower user.'})
+                } else {
+                    res.status(200).json(row)
+                }
+            })
+        }
+    })
+
+    db.close()
+})
+
 // Search users matching keyword
 app.get('/api/v1/search', (req, res) => {
     const db = new sqlite3.Database(dbPath)
